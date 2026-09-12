@@ -85,9 +85,13 @@ tapping term by feel. Local builds turn that loop into seconds.
 
 ```nushell
 omarchy pkg add cmake gperf dtc ccache   # once, needs sudo
-nu local/setup.nu                        # once, ~1.5 GB and a few minutes
-nu local/build.nu                        # every time after that
-nu local/build.nu dongle                 # just the dongle — enough for a keymap change
+
+use local
+local                    # what this module does
+local setup              # once, ~1.5 GB and a few minutes
+local build              # every time after that
+local build dongle       # just the dongle — enough for a keymap change
+local build --propre     # start over
 ```
 
 Everything lands in this repo and your home directory: a `.venv` for `west`, the Zephyr
@@ -99,7 +103,7 @@ group, which is root-equivalent on this machine — too much to grant in order t
 keyboard. The four packages above are ordinary Arch repo packages and the rest needs no
 privileges at all.
 
-`local/build.nu` reads its targets from `build.yaml`, the same file GitHub Actions uses.
+`local build` reads its targets from `build.yaml`, the same file GitHub Actions uses.
 There is one list of build targets, not two.
 
 ## Layout source
