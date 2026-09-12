@@ -30,7 +30,22 @@
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <175>;
+            // Retaper puis maintenir dans les 175 ms répète la lettre au lieu de
+            // déclencher le modificateur. QMK l'active par défaut ; ZMK non, et
+            // sans ça une home row mod ne se répète pas.
+            quick-tap-ms = <175>;
             bindings = <&kp>, <&kp>;
+        };
+
+        // &lt ne porte pas quick-tap-ms : sans ce jumeau, Space maintenu
+        // n'enchaîne pas les espaces.
+        ltr: layer_tap_repetable {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <175>;
+            quick-tap-ms = <175>;
+            bindings = <&mo>, <&kp>;
         };
     };
 
@@ -48,7 +63,7 @@
 &kp Q        &kp W        &kp E        &kp R        &kp T     &kp Y   &kp U        &kp I        &kp O        &kp P
 &hm LSHFT A  &hm LCTRL S  &hm LALT D   &hm LGUI F   &kp G     &kp H   &hm RGUI J   &hm RALT K   &hm RCTRL L  &hm RSHFT SEMI
 &kp Z        &kp X        &kp C        &kp V        &kp B     &kp N   &kp M        &kp COMMA    &kp DOT      &kp FSLH
-                                  &mo OPS  &lt SOU CAPS       &lt NAV SPACE  &mo SYM
+                                  &mo OPS  &ltr SOU CAPS       &ltr NAV SPACE  &mo SYM
 
 &kp RGUI &none &none &none &none                              &none &none &none &none &kp RGUI
             >;
