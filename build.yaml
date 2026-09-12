@@ -15,10 +15,10 @@ include:
     artifact-name: halcyon_ferris_dongle
 
   - board: halcyon_wireless//zmk
-    shield: halcyon_ferris_left mod_battery_coincell mod_display_epaper_forest
+    shield: halcyon_ferris_left mod_battery_coincell mod_display_epaper_cityscape
     cmake-args: -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
     artifact-name: halcyon_ferris_left_cc_epaper
 
   - board: halcyon_wireless//zmk
-    shield: halcyon_ferris_right mod_battery_coincell mod_display_epaper_forest
+    shield: halcyon_ferris_right mod_battery_coincell mod_display_epaper_cityscape
     artifact-name: halcyon_ferris_right_cc_epaper
