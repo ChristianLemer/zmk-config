@@ -1,0 +1,9 @@
+# Espace de travail west, téléchargé par local/setup.nu — jamais versionné.
+/.west/
+/zmk/
+/zephyr/
+/modules/
+/bootloader/
+/tools/
+/build/
+/.venv/

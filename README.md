@@ -78,6 +78,30 @@ pressed within N ms of the previous one is forced to a tap, so fast typing canno
 modifiers at all. After that, `hold-trigger-key-positions`: the opposite-hands rule, which
 settles a mod-tap as a tap whenever the next key is on the same hand. Neither is set today.
 
+## Building locally
+
+Pushing and waiting four minutes is fine for a rare change; it is not fine for tuning a
+tapping term by feel. Local builds turn that loop into seconds.
+
+```nushell
+omarchy pkg add cmake gperf dtc ccache   # once, needs sudo
+nu local/setup.nu                        # once, ~1.5 GB and a few minutes
+nu local/build.nu                        # every time after that
+nu local/build.nu dongle                 # just the dongle — enough for a keymap change
+```
+
+Everything lands in this repo and your home directory: a `.venv` for `west`, the Zephyr
+workspace beside it, the ARM toolchain under your own SDK path. All of it is in
+`.gitignore`.
+
+**No Docker.** The container route would mean enabling the daemon and joining the `docker`
+group, which is root-equivalent on this machine — too much to grant in order to compile a
+keyboard. The four packages above are ordinary Arch repo packages and the rest needs no
+privileges at all.
+
+`local/build.nu` reads its targets from `build.yaml`, the same file GitHub Actions uses.
+There is one list of build targets, not two.
+
 ## Layout source
 
 Board definitions and the ZMK fork come from splitkb, pulled by `config/west.yml`:
