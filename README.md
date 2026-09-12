@@ -88,11 +88,15 @@ omarchy pkg add cmake gperf dtc ccache   # once, needs sudo
 
 use local
 local                    # what this module does
-local setup              # once, ~1.5 GB and a few minutes
+local setup              # once, 2+ GB and about a quarter of an hour
 local build              # every time after that
 local build dongle       # just the dongle — enough for a keymap change
 local build --propre     # start over
 ```
+
+`west update` is resumable — if it looks stuck at `Compressing objects: 0%`, it is not;
+git sits there a long time on the larger repos before the counter moves. Interrupting and
+re-running costs nothing but does not help either.
 
 Everything lands in this repo and your home directory: a `.venv` for `west`, the Zephyr
 workspace beside it, the ARM toolchain under your own SDK path. All of it is in

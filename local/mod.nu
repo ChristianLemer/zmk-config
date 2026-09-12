@@ -54,7 +54,8 @@ export def setup [] {
 
     print ""
     print "── espace de travail west ──"
-    print "  Premier passage : environ 1,5 Go, quelques minutes."
+    print "  Premier passage : plus de 2 Go, compter un quart d heure."
+    print "  git reste longtemps affiche a 0% en decompressant : ce n est pas un blocage."
     if not ($"($r)/.west" | path exists) { ^$west init -l $"($r)/config" }
     cd $r
     ^$west update --fetch-opt=--filter=tree:0
