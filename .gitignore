@@ -1,9 +1,13 @@
-# Espace de travail west, téléchargé par local/setup.nu — jamais versionné.
+# Espace de travail west, produit par `local setup` — jamais versionné.
+# west dépose ses dépôts à la racine : tout ce qui n'est pas à nous sort d'ici.
 /.west/
-/zmk/
+/.venv/
+/build/
 /zephyr/
+/zmk/
+/zmk-halcyon-module/
 /modules/
+/optional/
 /bootloader/
 /tools/
-/build/
-/.venv/
+/benchmarks/
