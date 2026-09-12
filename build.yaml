@@ -1,0 +1,20 @@
+# Cibles de compilation — une par appareil.
+# Le dongle est le central ; les deux moitiés sont des peripherals.
+# `cc` = mod_battery_coincell, `epaper` = mod_display_epaper : ce que porte
+# physiquement chaque moitié. Changer de module, c'est changer cette ligne.
+---
+include:
+  - board: halcyon_dongle//zmk
+    shield: halcyon_ferris_dongle
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+    snippet: studio-rpc-usb-uart
+    artifact-name: halcyon_ferris_dongle
+
+  - board: halcyon_wireless//zmk
+    shield: halcyon_ferris_left mod_battery_coincell mod_display_epaper
+    cmake-args: -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
+    artifact-name: halcyon_ferris_left_cc_epaper
+
+  - board: halcyon_wireless//zmk
+    shield: halcyon_ferris_right mod_battery_coincell mod_display_epaper
+    artifact-name: halcyon_ferris_right_cc_epaper

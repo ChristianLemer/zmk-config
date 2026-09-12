@@ -1,0 +1,126 @@
+/*
+ * Halcyon Ferris — portage fidèle de la disposition Vial 34 touches.
+ * Intention et raisonnement : ChristianLemer/orpheus, keyboards/splitkb/
+ *
+ * Aucune touche ajoutée, aucune touche déplacée. Ce qui était vide sous Vial
+ * reste vide ici.
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/pointing.h>
+
+#define BASE 0
+#define NAV  1
+#define SYM  2
+#define OPS  3
+#define SOU  4
+
+/ {
+    behaviors {
+        // Mod-tap réglé pour reproduire le comportement QMK d'origine :
+        // seul l'écoulement du délai décide du maintien, pas la frappe d'une
+        // autre touche. C'est la saveur « tap-preferred », et 175 ms est le
+        // TAPPING_TERM lu dans le .vil.
+        hm: home_row_mod {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <175>;
+            bindings = <&kp>, <&kp>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        base_layer {
+            display-name = "Base";
+// -----------------------------------------------------------------------------------------
+// |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U  |  I  |  O  |  P  |
+// | A⇧  | S⌃  | D⌥  | F⌘  |  G  |   |  H  | J⌘  | K⌥  | L⌃  | ;⇧  |
+// |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M  |  ,  |  .  |  /  |
+//                   | OPS | ⇪/SOU |   | ␣/NAV | SYM |
+            bindings = <
+&kp Q        &kp W        &kp E        &kp R        &kp T     &kp Y   &kp U        &kp I        &kp O        &kp P
+&hm LSHFT A  &hm LCTRL S  &hm LALT D   &hm LGUI F   &kp G     &kp H   &hm RGUI J   &hm RALT K   &hm RCTRL L  &hm RSHFT SEMI
+&kp Z        &kp X        &kp C        &kp V        &kp B     &kp N   &kp M        &kp COMMA    &kp DOT      &kp FSLH
+                                  &mo OPS  &lt SOU CAPS       &lt NAV SPACE  &mo SYM
+
+&kp RGUI &none &none &none &none                              &none &none &none &none &kp RGUI
+            >;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        nav_layer {
+            display-name = "Nav";
+// -----------------------------------------------------------------------------------------
+// |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  |
+// |TAB⇧ |ESC⌃ |BSP⌥ |RET⌘ | DEL |   |  ←  | ↓⌘  | ↑⌥  | →⌃  |  ⇧  |
+// |PRTSC|     |     |     | INS |   |HOME |PG_DN|PG_UP| END |PAUSE|
+            bindings = <
+&kp N1         &kp N2         &kp N3         &kp N4        &kp N5    &kp N6     &kp N7         &kp N8       &kp N9           &kp N0
+&hm LSHFT TAB  &hm LCTRL ESC  &hm LALT BSPC  &hm LGUI RET  &kp DEL   &kp LEFT   &hm RGUI DOWN  &hm RALT UP  &hm RCTRL RIGHT  &kp RSHFT
+&kp PSCRN      &none          &none          &none         &kp INS   &kp HOME   &kp PG_DN      &kp PG_UP    &kp END          &kp PAUSE_BREAK
+                                        &trans &trans                &trans &trans
+
+&trans &trans &trans &trans &trans                                   &trans &trans &trans &trans &trans
+            >;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        sym_layer {
+            display-name = "Symbols";
+// -----------------------------------------------------------------------------------------
+// |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |     |     |
+// |  <  |  [  |  {  |  (  |     |   |     |  )  |  }  |  ]  |  >  |
+// |     |     |     |     |     |   |     |     |     |     |  \  |
+            bindings = <
+&kp EXCL   &kp AT     &kp HASH   &kp DLLR   &kp PRCNT    &kp CARET  &kp AMPS   &kp STAR   &none      &none
+&kp LT     &kp LBKT   &kp LBRC   &kp LPAR   &none        &none      &kp RPAR   &kp RBRC   &kp RBKT   &kp GT
+&none      &none      &none      &none      &none        &none      &none      &none      &none      &kp BSLH
+                                    &trans &trans                   &trans &trans
+
+&trans &trans &trans &trans &trans                                  &trans &trans &trans &trans &trans
+            >;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        ops_layer {
+            display-name = "Operators";
+// -----------------------------------------------------------------------------------------
+// |     |     |     |     |     |   |     |     |     |     |     |
+// |  =  |  +  |  _  |  -  |     |   |  ~  |  '  |  "  |  `  |  |  |
+// |PREV |NEXT |VOL- |VOL+ |MUTE |   |     |     |     |     |     |
+            bindings = <
+&none       &none       &none         &none         &none        &none       &none     &none     &none        &none
+&kp EQUAL   &kp PLUS    &kp UNDER     &kp MINUS     &none        &kp TILDE   &kp SQT   &kp DQT   &kp GRAVE    &kp PIPE
+&kp C_PREV  &kp C_NEXT  &kp C_VOL_DN  &kp C_VOL_UP  &kp C_MUTE   &none       &none     &none     &none        &none
+                                     &trans &trans               &trans &trans
+
+&trans &trans &trans &trans &trans                               &trans &trans &trans &trans &trans
+            >;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        souris_layer {
+            display-name = "Mouse";
+// -----------------------------------------------------------------------------------------
+// |     |     |     |     |     |   |     |     |     |     |     |
+// |     |CLIC▸|CLIC•|CLIC◂|     |   |  ←  |  ↓  |  ↑  |  →  |     |
+// |     |     |     |     |     |   |SCR◂ |SCR▾ |SCR▴ |SCR▸ |     |
+            bindings = <
+&none  &none      &none      &none      &none    &none            &none            &none          &none             &none
+&none  &mkp RCLK  &mkp MCLK  &mkp LCLK  &none    &mmv MOVE_LEFT   &mmv MOVE_DOWN   &mmv MOVE_UP   &mmv MOVE_RIGHT   &none
+&none  &none      &none      &none      &none    &msc SCRL_LEFT   &msc SCRL_DOWN   &msc SCRL_UP   &msc SCRL_RIGHT   &none
+                                &trans &trans                     &trans &trans
+
+&trans &trans &trans &trans &trans                                &trans &trans &trans &trans &trans
+            >;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+    };
+};
